@@ -4,10 +4,9 @@
 # Takes the same input, multiplies the first column elements by
 # the amount of times they appear on the second column
 
-if [ ! -f ./input.txt ]; then
-  echo "input file required. Check project or AOC docs for more information about how to to get it"
-  exit 1
-fi
+source ${AOC_UTILS_PATH:-"../../utils"}/lib.sh
+
+fails_if_input_does_not_exist
 
 awk '{ print $1 }' input.txt > /tmp/first-column.txt
 awk '{ print $2 }' input.txt > /tmp/second-column.txt
