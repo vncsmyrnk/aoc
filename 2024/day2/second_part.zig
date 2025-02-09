@@ -1,5 +1,7 @@
 const std = @import("std");
 
+// TODO: Just like part 1, this needs optmization and cleaning
+
 const Order = enum { ascending, descending };
 
 pub fn main() !void {
