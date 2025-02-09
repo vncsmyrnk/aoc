@@ -1,25 +1,42 @@
 use strict;
 use warnings;
 
-system("tr '\n' ' ' <input.txt >/tmp/input-concatenated.txt");
+sub main {
+  my $count = process_file('input.txt');
+  print "$count\n";
+}
 
-open(my $fh, '<', '/tmp/input-concatenated.txt') or die "Failed to read generated input file. $!";
+sub process_file {
+  my ($file_name) = @_;
+  my $concatenated_file_name = "/tmp/input-concatenated.txt";
+  system("tr '\n' ' ' <$file_name >$concatenated_file_name");
+  open(my $fh, '<', $concatenated_file_name) or die "Failed to read generated input file. $!";
 
-my $total_count = 0;
-
-while (my $line = <$fh>) {
-  while ($line =~ /mul\((\d+),(\d+)\)/g) {
-    $total_count += $1 * $2;
+  my $count = 0;
+  while (my $line = <$fh>) {
+    $count += sum_mult_operations($line);
   }
 
-  while ($line =~ /don't\(\)(.*?)do\(\)/g) {
+  close($fh);
+  return $count;
+}
+
+sub sum_mult_operations {
+  my ($text) = @_;
+  my $total = 0;
+  while ($text =~ /mul\((\d+),(\d+)\)/g) {
+    $total += $1 * $2;
+  }
+
+  while ($text =~ /don't\(\)(.*?)do\(\)/g) {
     my $between = $1;
 
     while ($between =~ /mul\((\d+),(\d+)\)/g) {
-      $total_count -= $1 * $2;
+      $total -= $1 * $2;
     }
   }
+
+  return $total;
 }
 
-print "$total_count\n";
-close($fh);
+main();
