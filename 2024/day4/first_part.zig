@@ -177,7 +177,7 @@ fn lastCharsMatchDiagonallyDownwardRight(search: SearchContext) bool {
 
 fn lastCharsMatchDiagonallyDownwardLeft(search: SearchContext) bool {
     for (search.search_word[1..], 1..) |char, index| {
-        const diagonally_downward_left_formed = search.starting_row_index + index < search.chars.len and search.starting_column_index >= search.chars[search.starting_row_index + index].len - index and search.chars[search.starting_row_index + index][search.starting_column_index - index] == char;
+        const diagonally_downward_left_formed = search.starting_row_index + index < search.chars.len and search.starting_column_index >= index and search.chars[search.starting_row_index + index][search.starting_column_index - index] == char;
         if (!diagonally_downward_left_formed) {
             return false;
         }
@@ -197,7 +197,7 @@ fn lastCharsMatchDiagonallyUpwardRight(search: SearchContext) bool {
 
 fn lastCharsMatchDiagonallyUpwardLeft(search: SearchContext) bool {
     for (search.search_word[1..], 1..) |char, index| {
-        const diagonally_upward_left_formed = search.starting_row_index > index - 1 and search.starting_column_index >= search.chars[search.starting_row_index - index].len - index and search.chars[search.starting_row_index - index][search.starting_column_index - index] == char;
+        const diagonally_upward_left_formed = search.starting_row_index > index - 1 and search.starting_column_index >= index and search.chars[search.starting_row_index - index][search.starting_column_index - index] == char;
         if (!diagonally_upward_left_formed) {
             return false;
         }
@@ -220,7 +220,7 @@ test "test multiple ocurrences" {
     };
 
     const result = try countWordOcurrences(chars, "XMAS");
-    try std.testing.expect(result == 15); // Should be 18
+    try std.testing.expect(result == 18);
 }
 
 test "test char matrix columns not the same size" {
